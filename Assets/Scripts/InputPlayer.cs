@@ -21,16 +21,14 @@ public class InputPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (!player||player.isUsingDash) return;
+        if (!player || player.isUsingDash) return;
 
         var input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
         player.Move(input);
-        player.MoveLocal(input);
 
         if (Input.GetMouseButtonDown(0) && input != Vector3.zero)
         {
             player.Dash(input);
-            player.DashLocal(input);
         }
     }
 }

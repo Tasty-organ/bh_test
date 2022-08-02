@@ -22,33 +22,37 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    [Command]
     public void Move(Vector3 input)
     {
         var moveDirection = input * speed;
         rigidbody.velocity = moveDirection;
+        MoveOnline(input);
     }
 
-    public void MoveLocal(Vector3 input)
+    [Command]
+    private void MoveOnline(Vector3 input)
     {
+        isUsingDash = false;
         var moveDirection = input * speed;
         rigidbody.velocity = moveDirection;
     }
 
-    [Command]
-    public void Dash(Vector3 input)
+    
+    public async void Dash(Vector3 input)
     {
         isUsingDash = true;
-        var dashDirection = input * dashSpeed;
-        rigidbody.velocity = dashDirection;
-    }
-
-    public async void DashLocal(Vector3 input)
-    {
-        isUsingDash = true;
+        DashOnline(input);
         var dashDirection = input * dashSpeed;
         rigidbody.velocity = dashDirection;
         await System.Threading.Tasks.Task.Delay((int)(dashDuration * 1000));
         isUsingDash = false;
+    }
+
+    [Command]
+    private void DashOnline(Vector3 input)
+    {
+        isUsingDash = true;
+        var dashDirection = input * dashSpeed;
+        rigidbody.velocity = dashDirection;
     }
 }
