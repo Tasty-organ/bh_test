@@ -17,16 +17,17 @@ public class InputPlayer : MonoBehaviour
     public void SetPlayer(PlayerMovement player)
     {
         this.player = player;
+        CameraController.instance.SetFollowTarget(player.transform);
     }
 
     private void Update()
     {
         if (!player || player.isUsingDash) return;
-
-        var input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        if (!player.isActiveAndEnabled) return;
+        var input = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")).normalized;
         player.Move(input);
 
-        if (Input.GetMouseButtonDown(0) && input != Vector3.zero)
+        if (Input.GetMouseButtonDown(0) && input != Vector2.zero)
         {
             player.Dash(input);
         }
