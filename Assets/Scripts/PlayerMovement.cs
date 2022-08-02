@@ -12,7 +12,6 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float dashSpeed = 10f;
     [SyncVar]
     [SerializeField] private float dashDuration = 0.5f;
-    private Transform cameraTransform;
     public bool isUsingDash { get; private set; } = false;
 
     private void Start()
@@ -20,7 +19,6 @@ public class PlayerMovement : NetworkBehaviour
         if (isClient && isLocalPlayer)
         {
             InputPlayer.instance.SetPlayer(this);
-            cameraTransform = CameraController.instance.transform;
         }
     }
 
@@ -28,8 +26,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         var moveDirection = GetDirection(input) * speed;
         playerRigidbody.velocity = moveDirection;
-        print(playerRigidbody.velocity);
-        print(playerRigidbody.velocity.magnitude);
     }
 
 
@@ -44,8 +40,9 @@ public class PlayerMovement : NetworkBehaviour
 
     private Vector3 GetDirection(Vector2 input)
     {
-        var dashForward = cameraTransform.forward * input.x;
-        var dashRight = cameraTransform.right * input.y;
+        var cameraParent = CameraController.instance.GetCameraParent();
+        var dashForward = cameraParent.forward * input.x;
+        var dashRight = cameraParent.right * input.y;
         return dashRight + dashForward;
     }
 }
