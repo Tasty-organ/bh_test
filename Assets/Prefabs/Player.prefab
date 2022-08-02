@@ -131,8 +131,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.05
-  speed: 3
   rigidbody: {fileID: 713234226757491169}
+  speed: 5
+  dashSpeed: 15
+  dashDuration: 0.3
 --- !u!114 &713234226757491196
 MonoBehaviour:
   m_ObjectHideFlags: 0
